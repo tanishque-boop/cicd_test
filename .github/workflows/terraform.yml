@@ -3,7 +3,7 @@ name: terraform
 on:
   push:
     branches:
-      - main
+      - test
   workflow_dispatch:
 
 permissions:
@@ -21,7 +21,7 @@ jobs:
       - uses: hashicorp/setup-terraform@v4
       - run: terraform init -backend-config="key=dev.tfstate" #create a dev env statefile
       - run: terraform apply -auto-approve -var-file=envs/dev.tfvars
-      - run: terraform destroy -auto-approve -var-file=envs/dev.tfvars
+      #- run: terraform destroy -auto-approve -var-file=envs/dev.tfvars
 
   staging:
     needs: dev
@@ -36,7 +36,7 @@ jobs:
       - run: terraform init -backend-config="key=staging.tfstate"
       - run: terraform apply -auto-approve -var-file=envs/staging.tfvars
       - run: terraform apply -auto-approve -var-file=envs/staging.tfvars
-      - run: terraform destroy -auto-approve -var-file=envs/staging.tfvars
+      #- run: terraform destroy -auto-approve -var-file=envs/staging.tfvars
 
 
   prod:
@@ -51,4 +51,4 @@ jobs:
       - uses: hashicorp/setup-terraform@v4
       - run: terraform init -backend-config="key=prod.tfstate"
       - run: terraform apply -auto-approve -var-file=envs/prod.tfvars
-      - run: terraform destroy -auto-approve -var-file=envs/prod.tfvars
+      #- run: terraform destroy -auto-approve -var-file=envs/prod.tfvars
